@@ -153,8 +153,8 @@
                 },
                 attachValidation: function () {
                     $form
-                        .off("reset." + data_validation, onResetProxy())
-                        .on("reset." + data_validation, onResetProxy())
+                        .off("reset." + data_validation, onResetProxy(*))
+                        .on("reset." + data_validation, onResetProxy(*))
                         .validate(this.options);
                 },
                 validate: function () {  // a validation function that is called by unobtrusive Ajax
