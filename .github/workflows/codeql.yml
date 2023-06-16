@@ -75,6 +75,6 @@ jobs:
       uses: peter-murray/github-security-report-action@v2
       with:
            token: ${{ secrets.SECURITY_TOKEN }}
-           sarifReportDir: .
+           sarifReportDir: ./samples/sarif/java/detailed
            outputDir: .
            repository: rsharma2023/sonarqube-analysis
