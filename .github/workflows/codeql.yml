@@ -70,11 +70,27 @@ jobs:
     # - run: |
     #     echo "Run, Build Application using script"
     #     ./location_of_script_within_repo/buildscript.sh
+        
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
 
+
+    - name: Upload SARIF file
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+          # Path to SARIF file relative to the root of the repository
+          sarif_file: ./samples/sarif/results.sarif
+          # Optional category for the results
+          # Used to differentiate multiple results for one commit
+          # category: my-analysis-tool
+
+########################################
     - name: Generate Security Report
       uses: peter-murray/github-security-report-action@v2
       with:
            token: ${{ secrets.SECURITY_TOKEN }}
-           sarifReportDir: ./samples/sarif/java/detailed
+           sarifReportDir: ./samples/sarif
            outputDir: .
            repository: rsharma2023/sonarqube-analysis
