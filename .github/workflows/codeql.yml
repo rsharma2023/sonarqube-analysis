@@ -38,17 +38,34 @@ jobs:
         
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
+    - name: Clean up CodeQL database before upload
+      id: database-cleanup
+      env:
+        LANGUAGE: ${{ matrix.language }}
+      run: |
+        set -xu
+        DATABASE_DIR="/home/runner/work/_temp/codeql_databases/$LANGUAGE"
+        echo "Cleaning up database in $DATABASE_DIR"
+        for SUB_DIR in log results working; do
+          rm -rf $DATABASE_DIR/$SUB_DIR
+        done
+        echo "Zipping database"
+        DATABASE_ZIP="netgoat-$LANGUAGE-db.zip"
+        zip -r "$DATABASE_ZIP" "$DATABASE_DIR"
+        echo "::set-output name=zip::$DATABASE_ZIP"
+    - name: Extract CSV from SARIF
+      uses: mr-sherman/sarif-to-csv@v2.1
       with:
-        category: "/language:${{matrix.language}}"
-
-
-########################################
-    
-    - name: Generate Security Report
-      uses: peter-murray/github-security-report-action@v2
+         input-file: "/home/runner/work/${{ github.event.repository.name }}/results/${{ matrix.language }}.sarif"
+         output-file: "/home/runner/work/${{ github.event.repository.name }}/results/${{ matrix.language }}.csv"
+    - name: Upload CodeQL database
+      uses: actions/upload-artifact@v2
       with:
-           token: ${{ secrets.SECURITY_TOKEN }}
-           sarifReportDir: ../results/javascript.sarif
-           outputDir: ${{ github.workspace }}
-           repository: rsharma2023/sonarqube-analysis
-    
+        name: repo-name-${{ matrix.language }}-db
+        path: ${{ steps.database-cleanup.outputs.zip }}
+    - name: Upload CSV
+      uses: actions/upload-artifact@v2
+      with:
+        name: "${{ matrix.language }}.csv"
+        path: "/home/runner/work/sonarqube-analysis/results/${{ matrix.language }}.csv"
+        
