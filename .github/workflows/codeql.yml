@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'csharp', 'javascript' ]
+        language: [ 'javascript' ]
 
 
     steps:
@@ -43,19 +43,12 @@ jobs:
 
 
 ########################################
-    - if: matrix.language == 'java'
-      name: Generate Security Report
+    
+    - name: Generate Security Report
       uses: peter-murray/github-security-report-action@v2
       with:
            token: ${{ secrets.SECURITY_TOKEN }}
            sarifReportDir: /home/runner/work/sonarqube-analysis/results/javascript.sarif
            outputDir: .
            repository: rsharma2023/sonarqube-analysis
-    - if: matrix.language == 'cpp' || matrix.language == 'csharp'
-      name: Generate Security Report
-      uses: peter-murray/github-security-report-action@v2
-      with:
-           token: ${{ secrets.SECURITY_TOKEN }}
-           sarifReportDir: /home/runner/work/sonarqube-analysis/results/csharp.sarif
-           outputDir: .
-           repository: rsharma2023/sonarqube-analysis
+    
