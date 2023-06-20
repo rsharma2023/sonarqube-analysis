@@ -49,6 +49,6 @@ jobs:
       with:
            token: ${{ secrets.SECURITY_TOKEN }}
            sarifReportDir: /home/runner/work/sonarqube-analysis/results/javascript.sarif
-           outputDir: .
+           outputDir: ${{ github.workspace }}
            repository: rsharma2023/sonarqube-analysis
     
