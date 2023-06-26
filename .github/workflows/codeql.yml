@@ -68,4 +68,16 @@ jobs:
       with:
         name: "${{ matrix.language }}.csv"
         path: "/home/runner/work/sonarqube-analysis/results/${{ matrix.language }}.csv"
-        
+################################
+    - name: Send email
+      uses: dawidd6/action-send-mail@v3
+      env:
+        SMTP_SERVER: smtp.gmail.com
+        SMTP_PORT: 465
+        SMTP_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+        SMTP_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        MAIL_FROM: rajan2456@gmail.com
+        MAIL_TO: rajan2456@gmail.com
+        MAIL_SUBJECT: CodeQL Analysis Results
+        MAIL_MESSAGE: |
+               The CodeQL analysis results are ready. You can find the report at: ${{ env.CODEQL_RESULTS_FOLDER }}
