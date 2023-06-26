@@ -70,7 +70,7 @@ jobs:
         path: ${{ steps.database-cleanup.outputs.zip }}
   # zip the project and move it to a staging directory
     - name: Zip Project
-      run: zip -R project.zip "/home/runner/work/${{ github.event.repository.name }}/results/${{ matrix.language }}.sarif"
+      run: zip -R project.zip . -x "/home/runner/work/${{ github.event.repository.name }}/results/*.sarif"
       env:
           build-name: project.zip
     - uses: actions/upload-artifact@v3 
