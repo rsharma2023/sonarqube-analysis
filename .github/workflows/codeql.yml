@@ -79,6 +79,6 @@ jobs:
         password: ${{ secrets.EMAIL_PASSWORD }}
         from: codeql Results
         to: rajan2456@gmail.com
-        subject: CodeQL Analysis Results
+        subject: "CodeQL Analysis Results"
         body: The CodeQL analysis results are ready. You can find the attached report
         attachment: "/home/runner/work/sonarqube-analysis/results/${{ matrix.language }}.csv"
