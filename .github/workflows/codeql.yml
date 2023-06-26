@@ -68,6 +68,15 @@ jobs:
       with:
         name: repo-name-${{ matrix.language }}-db
         path: ${{ steps.database-cleanup.outputs.zip }}
+  # zip the project and move it to a staging directory
+    - name: Zip Project
+      run: zip -R project.zip "/home/runner/work/${{ github.event.repository.name }}/results/${{ matrix.language }}.sarif"
+      env:
+          build-name: project.zip
+    - uses: actions/upload-artifact@v3 
+      with:
+          path: project.zip 
+    
     - name: Upload CSV
       uses: actions/upload-artifact@v2
       with:
@@ -83,9 +92,9 @@ jobs:
         secure: true
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
-        subject: ${{matrix.subject}}
+        subject: CodeQL results
         to: rajan2456@gmail.com
         from: codeql Results
         body: The CodeQL analysis results are ready. You can find the attached report
-        attachment: ${{matrix.attachments}}
+        attachment: project.zip 
         #"/home/runner/work/sonarqube-analysis/results/${{ matrix.language }}.csv"
