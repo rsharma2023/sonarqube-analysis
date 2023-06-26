@@ -72,12 +72,13 @@ jobs:
     - name: Send email
       uses: dawidd6/action-send-mail@v3
       env:
-        SMTP_SERVER: smtp.gmail.com
-        SMTP_PORT: 465
-        SMTP_USERNAME: ${{ secrets.EMAIL_USERNAME }}
-        SMTP_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        MAIL_FROM: rajan2456@gmail.com
-        MAIL_TO: rajan2456@gmail.com
-        MAIL_SUBJECT: CodeQL Analysis Results
-        MAIL_MESSAGE: |
-               The CodeQL analysis results are ready. You can find the report at: ${{ env.CODEQL_RESULTS_FOLDER }}
+        server_address: smtp.gmail.com
+        server_port: 465
+        secure: true
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        from: codeql Results
+        to: rajan2456@gmail.com
+        subject: CodeQL Analysis Results
+        body: The CodeQL analysis results are ready. You can find the attached report
+        attachment: "/home/runner/work/sonarqube-analysis/results/${{ matrix.language }}.csv"
