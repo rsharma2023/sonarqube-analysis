@@ -88,6 +88,6 @@ jobs:
         to: rajan2456@gmail.com
         from: codeql Results
         body: The CodeQL analysis results are ready. You can find the attached report
-        attachment: README.md
-        #"/home/runner/work/sonarqube-analysis/results/${{ matrix.language }}.csv"
+        attachments: "/home/runner/work/sonarqube-analysis/results/${{ matrix.language }}.csv" 
+        
         
