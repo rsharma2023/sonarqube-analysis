@@ -86,7 +86,7 @@ jobs:
 
     - name: Send email
       uses: dawidd6/action-send-mail@v3.7.2
-      env:
+      with:
         server_address: smtp.gmail.com
         server_port: 465
         secure: true
